@@ -1,0 +1,130 @@
+// @ imports
+import { ArrowLeftIcon } from "lucide-react";
+import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
+import api from "../utils/axios";
+
+// @ component
+const CreatePage = () => {
+    // @ states
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    // @ refs
+    const formRef = useRef(null);
+
+    // @ functions
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!title.trim() || !content.trim()) {
+            toast.error("All Fields are required!");
+            return;
+        }
+        setLoading(true);
+        try {
+            await api.post("/notes", {
+                title,
+                content,
+            });
+            toast.success("Note Created Successfully!");
+            navigate("/");
+        } catch (error) {
+            console.log(`Error creating note: ${error}`);
+            if (error.response.status === 429) {
+                toast.error("Slow down, You're creating notes too fast", {
+                    duration: 4000,
+                    icon: "💀",
+                });
+            } else {
+                toast.error("Failed to create note");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            if (e.shiftKey) {
+                e.preventDefault();
+                formRef.current.requestSubmit?.();
+            } else {
+                return;
+            }
+        }
+    };
+
+    // @ return
+    return (
+        <div className={`min-h-screen`}>
+            <div className={`container mx-auto px-4 py-8`}>
+                <div className={`max-w-2xl mx-auto`}>
+                    <Link to={"/"} className={`btn btn-ghost mb-6`}>
+                        <ArrowLeftIcon className="size-5" />
+                        Back to All Notes
+                    </Link>
+                    <div className={`card bg-base-100`}>
+                        <div className={`card-body`}>
+                            <h2 className={`card-title text-2xl mb-4`}>
+                                Create New Note
+                            </h2>
+                            <form ref={formRef} onSubmit={handleSubmit}>
+                                <div className={`form-control mb-4`}>
+                                    <label className={`label`}>
+                                        <span className={`label-text`}>
+                                            Title
+                                        </span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="Note Title"
+                                        className={`input input-bordered`}
+                                        value={title}
+                                        onChange={(e) =>
+                                            setTitle(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                <div className="form-control mb-4">
+                                    <label className="label">
+                                        <span className="label-text">
+                                            Content
+                                        </span>
+                                    </label>
+                                    <textarea
+                                        placeholder="Write your note here..."
+                                        className="textarea textarea-bordered h-32"
+                                        value={content}
+                                        onKeyDown={(e) => handleKeyDown(e)}
+                                        onChange={(e) =>
+                                            setContent(e.target.value)
+                                        }
+                                    />
+                                </div>
+
+                                <div className={`card-actions justify-end`}>
+                                    <button
+                                        type="submit"
+                                        className={`btn btn-primary`}
+                                        disabled={loading}
+                                    >
+                                        {loading
+                                            ? "Creating..."
+                                            : "Create Note"}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CreatePage;

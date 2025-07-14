@@ -5,18 +5,21 @@ import HomePage from "./pages/HomePage";
 import NoteDetailPage from "./pages/NoteDetailPage";
 import CreatePage from "./pages/CreatePage";
 import parse from "html-react-parser";
-import Navbar from "./components/Navbar";
-// import bg_effect from "";
-// import { bgEffects } from "./utils/constants";
+import AuthPage from "./pages/AuthPage";
+import useAuth from "./hooks/useAuth.js";
 
 // @ component
 const App = () => {
     // @ states
     const [effect, setEffect] = useState("");
+    const { loading } = useAuth();
 
     // @ functions
     const location = useLocation();
+
+    // @ useEffects
     useEffect(() => {
+        // MO SET the user in localstorage so he don't need to login each time
         const saved = localStorage.getItem("theme");
         const effect = localStorage.getItem("effect");
         if (saved) {
@@ -27,17 +30,39 @@ const App = () => {
         }
     }, [location.pathname]);
 
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        );
+    }
+
+    // MO PUT the navbar to be able to have the new note button or not
+
     // @ return
     return (
         <>
             <div id="app-container" className={`relative h-full w-full`}>
                 <div id="bg-effect">{effect && parse(effect)}</div>
 
-                <Navbar setEffect={setEffect} />
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/create" element={<CreatePage />} />
-                    <Route path="/note/:id" element={<NoteDetailPage />} />
+                    <Route
+                        path="/"
+                        element={<HomePage setEffect={setEffect} />}
+                    />
+                    <Route
+                        path="/create"
+                        element={<CreatePage setEffect={setEffect} />}
+                    />
+                    <Route
+                        path="/auth"
+                        element={<AuthPage setEffect={setEffect} />}
+                    />
+                    <Route
+                        path="/note/:id"
+                        element={<NoteDetailPage setEffect={setEffect} />}
+                    />
                 </Routes>
             </div>
         </>

@@ -1,12 +1,13 @@
 // @ imports
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import api from "../utils/axios";
 import toast from "react-hot-toast";
 import { ArrowLeftFromLine, LoaderIcon, Trash2 } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 // @ component
-const NoteDetailPage = () => {
+const NoteDetailPage = ({ setEffect }) => {
     // @ states
     const [note, setNote] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -91,9 +92,7 @@ const NoteDetailPage = () => {
 
     if (loading) {
         return (
-            <div
-                className={`min-h-screen flex items-center justify-center`}
-            >
+            <div className={`min-h-screen flex items-center justify-center`}>
                 <LoaderIcon className={`animate-spin size-10`} />
             </div>
         );
@@ -102,6 +101,7 @@ const NoteDetailPage = () => {
     // @ return
     return (
         <div className={`min-h-screen`}>
+            <Navbar setEffect={setEffect} auth={true} />
             <div className={`container mx-auto px-4 py-8`}>
                 <div className="max-w-4xl mx-auto">
                     <div className={`flex items-center justify-between mb-6`}>

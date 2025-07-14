@@ -4,9 +4,10 @@ import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
 import api from "../utils/axios";
+import Navbar from "../components/Navbar";
 
 // @ component
-const CreatePage = () => {
+const CreatePage = ({ setEffect }) => {
     // @ states
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -47,7 +48,6 @@ const CreatePage = () => {
         }
     };
 
-
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             if (e.shiftKey) {
@@ -62,6 +62,7 @@ const CreatePage = () => {
     // @ return
     return (
         <div className={`min-h-screen`}>
+            <Navbar setEffect={setEffect} newNote={false} auth />
             <div className={`container mx-auto px-4 py-8`}>
                 <div className={`max-w-2xl mx-auto`}>
                     <Link to={"/"} className={`btn btn-ghost mb-6`}>

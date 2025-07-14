@@ -3,9 +3,11 @@ import Note from "../models/Note.js";
 
 // @ Handlers:
 // & Get all notes
-export const getAllNotes = async (_, res) => {
+export const getAllNotes = async (req, res) => {
     try {
-        const notes = await Note.find().sort({ createdAt: -1 });
+        const notes = await Note.find({ userId: req.user.id }).sort({
+            createdAt: -1,
+        });
         return notes.length > 0
             ? res.status(200).json({
                   success: true,
@@ -55,13 +57,14 @@ export const getNoteById = async (req, res) => {
 
 export const addNote = async (req, res) => {
     try {
-        const { title, content } = req.body;
+        const { title, content, id } = req.body;
+        const userId = req.user.id;
         if (!title || !content)
             return res.status(400).json({
                 success: false,
                 msj: `Please enter valid title and content`,
             });
-        const newNote = new Note({ title, content });
+        const newNote = new Note({ title, content, userId });
         await newNote.save();
 
         return res.status(201).json({

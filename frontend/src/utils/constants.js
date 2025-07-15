@@ -10,7 +10,6 @@ export const themes = [
     "garden",
 ];
 
-// MO TODO: // TODO Change the light object to something better:
 
 export const bgEffects = {
     light: `<div class="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 background:radial-gradient(125%_125%_at_50%_10%,#fff_30%,#0062FF_170%)]"></div><div class="absolute -z-10 bottom-0 left-0 right-0 top-20 bg-[radial-gradient(circle_300px_at_50%_200px,#0062FF_-170%,transparent)]"></div>`,

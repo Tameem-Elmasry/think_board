@@ -19,7 +19,6 @@ const App = () => {
 
     // @ useEffects
     useEffect(() => {
-        // MO SET the user in localstorage so he don't need to login each time
         const saved = localStorage.getItem("theme");
         const effect = localStorage.getItem("effect");
         if (saved) {
@@ -38,7 +37,6 @@ const App = () => {
         );
     }
 
-    // MO PUT the navbar to be able to have the new note button or not
 
     // @ return
     return (

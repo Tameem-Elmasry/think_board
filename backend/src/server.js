@@ -30,11 +30,14 @@ if (process.env.NODE_ENV !== "production") {
 } else if (process.env.NODE_ENV === "production") {
     app.use(
         cors({
-            origin: "https://mern-thinkboard.netlify.app/",
+            origin: "https://mern-thinkboard.netlify.app",
             credentials: true,
         })
     );
 }
+
+app.options("*", cors());
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(rateLimiter);

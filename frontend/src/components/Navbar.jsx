@@ -1,5 +1,5 @@
 // @ imports
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronDown, PlusIcon, User2, UserX2Icon } from "lucide-react";
 import { themes } from "../utils/constants.js";
 import { bgEffects } from "../utils/constants.js";

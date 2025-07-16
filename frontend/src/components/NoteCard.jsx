@@ -1,6 +1,6 @@
 import { PercentSquareIcon, Trash2 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { formatDate } from "../utils/utils";
 import toast from "react-hot-toast";
 import api from "../utils/axios";

@@ -1,6 +1,5 @@
 import { UserPlus2 } from "lucide-react";
-import React from "react";
-import { Link } from "react-router";
+import React from "react-router-dom";
 
 const NotAuth = () => {
     return (

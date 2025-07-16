@@ -1,6 +1,6 @@
 // @ imports
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-routerdom";
 import api from "../utils/axios";
 import toast from "react-hot-toast";
 import { ArrowLeftFromLine, LoaderIcon, Trash2 } from "lucide-react";

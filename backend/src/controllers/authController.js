@@ -104,7 +104,7 @@ export const checkAuth = (req, res) => {
 export const logout = (_, res) => {
     res.clearCookie("token", {
         httpOnly: true,
-        secure: false, //MO set to true in production if using HTTPS
+        secure: false, // MO SET to true in production if using HTTPS
         sameSite: "Lax",
     });
     res.status(200).json({ success: true, msg: "Logged out successfully" });

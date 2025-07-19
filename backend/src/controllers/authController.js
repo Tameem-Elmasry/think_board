@@ -30,7 +30,11 @@ export const signUp = async (req, res) => {
             { id: newUser._id, username: newUser.username },
             process.env.JWT_SECRET
         );
-        res.cookie("token", token, { httpOnly: true, secure: false }); // MO SET secure:true in production
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
+        });
 
         return res.status(201).json({
             success: true,
@@ -77,7 +81,11 @@ export const login = async (req, res) => {
             { id: user._id, username: user.username },
             process.env.JWT_SECRET
         );
-        res.cookie("token", token, { httpOnly: true, secure: false });
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
+        });
 
         return res.status(200).json({
             success: true,
@@ -102,10 +110,10 @@ export const checkAuth = (req, res) => {
 };
 
 export const logout = (_, res) => {
-    res.clearCookie("token", {
-        httpOnly: true,
-        secure: false, // MO SET to true in production if using HTTPS
-        sameSite: "Lax",
-    });
+res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "None",
+});
     res.status(200).json({ success: true, msg: "Logged out successfully" });
 };

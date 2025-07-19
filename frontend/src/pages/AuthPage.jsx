@@ -23,7 +23,7 @@ const AuthPage = ({ setEffect }) => {
         setLoading(true);
         try {
             if (!username || !password) {
-                toast.error("ALl inputs are required");
+                toast.error("All inputs are required");
                 return;
             }
             const res = await api.post("/user/signup", {
@@ -37,7 +37,7 @@ const AuthPage = ({ setEffect }) => {
         } catch (error) {
             console.log(`Error creating user: ${error}`);
             if (error.response.status === 409) {
-                toast.error("This username already exists!");
+                toast.error("Choose another username");
             } else if (error.response.status === 429) {
                 toast.error("Slow down, You're creating notes too fast", {
                     duration: 4000,
@@ -56,7 +56,7 @@ const AuthPage = ({ setEffect }) => {
         setLoading(true);
         try {
             if (!username || !password) {
-                toast.error("ALl inputs are required");
+                toast.error("All inputs are required");
                 return;
             }
             const res = await api.post("/user/login", {
@@ -69,15 +69,15 @@ const AuthPage = ({ setEffect }) => {
             navigate("/");
         } catch (error) {
             console.log(`Error logging in to user: ${error}`);
-            if (error.response.status === 409) {
-                toast.error("This username already exists!");
-            } else if (error.response.status === 429) {
+            if (error.response.status === 429) {
                 toast.error("Slow down, You're creating notes too fast", {
                     duration: 4000,
                     icon: "💀",
                 });
+            } else if (error.response.status === 401) {
+                toast.error("Wrong user name or password");
             } else {
-                toast.error("Failed to create Account");
+                toast.error("Failed to login to your Account");
             }
         } finally {
             setLoading(false);
